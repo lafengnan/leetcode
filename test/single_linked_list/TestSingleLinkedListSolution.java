@@ -1,4 +1,4 @@
-package single_link_list;
+package single_linked_list;
 
 import utils.SingleLinkedList;
 
