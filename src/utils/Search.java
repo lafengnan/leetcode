@@ -65,20 +65,53 @@ public class Search {
         while (low <= high) {
             int mid = (low + high) >> 1;
             if (nums[mid] == target) return mid;
-            if (nums[low] <= nums[mid]) { // [low, mid + k] is increment zone, [mid + k + 1, high] is decrement zone
+            if (nums[low] <= nums[mid]) { // [low, mid + k] is increment zone, [mid + k + 1, high] is increment zone II
                 if (nums[low] <= target && target < nums[mid]) { // low <= target < mid
                     high = mid - 1; // search in [low, mid - 1]
                 } else {
                     low = mid + 1; // search in [mid, mid + k...high]
                 }
-            } else { // [low, mid + k] is decrement zone, [mid + k + 1, high] is increment zone
-                if (target > nums[mid]) {
-                    high = mid - 1;
-                } else {
+            } else { // [mid - k, mid + j] is increment zone, [mid + j + 1, high] is increment zone II
+                if (nums[mid] < target && target <= nums[high]) {
                     low = mid + 1;
+                } else {
+                    high = mid - 1;
                 }
             }
         }
         return -1;
+    }
+
+    /**
+     * Follow up for "search in Rotated Sorted Array": What if duplicates are allowed?
+     * Would this affect the run-time complexity? How and why?
+     * Write a function to determine if a given target is in the array.
+     * [1 3 1 1 1]
+     * @param nums The input data
+     * @param target The target data to search
+     * @return true if target exists otherwise false
+     */
+    public static boolean biSearchRotateII(int[] nums, int target) {
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = (low + high) >> 1;
+            if (target == nums[mid]) return true;
+            if (nums[low] < nums[mid]) {
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else if (nums[low] > nums[mid]) {
+                if (nums[mid] < target && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            } else { // drop duplicate data and continue
+                low++;
+            }
+        }
+        return false;
     }
 }

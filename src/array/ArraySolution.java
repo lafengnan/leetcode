@@ -87,6 +87,17 @@ public class ArraySolution {
     }
 
     /**
+     * Follow up "Search in Rotated Sorted Array": What if duplicates are allowed?
+     * Would this affect the run-time complexity? How and why?
+     * @param nums Input data
+     * @param target The target number to search
+     * @return true if the target in nums otherwise false
+     */
+    public boolean searchInRotatedSortedArrayII(int[] nums, int target) {
+        return Search.biSearchRotateII(nums, target);
+    }
+
+    /**
      * Given an array of integers, return indices of the two numbers such that they add up
      * to a specific target. You may assume that each input would have exactly one solution.
      * Example:

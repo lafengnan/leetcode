@@ -38,6 +38,8 @@ public class TestArraySolution {
         data = new int[] {4,5,6,7,0,1,2};
         System.out.println(solution.searchInRotatedSortedArray(data, 0));
         System.out.println(solution.searchInRotatedSortedArray(data, 1));
+        data = new int[] {1,2,1,1,1};
+        System.out.println(solution.searchInRotatedSortedArrayII(data, 2));
     }
 
     public static void main(String... args) {
