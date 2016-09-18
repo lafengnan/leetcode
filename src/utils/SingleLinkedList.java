@@ -25,7 +25,7 @@ public class SingleLinkedList<T> {
         head = tail = null;
     }
 
-    public int size() {
+    public synchronized int size() {
         return len;
     }
 
@@ -69,17 +69,52 @@ public class SingleLinkedList<T> {
         return ++len;
     }
 
-    public T getValue(int i) {
-        i = i < len?i:len;
+    /**
+     * Insert a new node(nodeX) with value after to the given position.
+     * head->node0-->node1-->node2>null
+     * tail--------------------^
+     *
+     * head->node0-->node1-->nodeX-->node2-->null
+     * tail----------------------------^
+     * @param position The index of node in list
+     * @return The length of list after insertion
+     */
+    public synchronized int insertAfterPosition(final int position, T v){
+        if (position < 0) {
+            return -1;
+        }
+        if (position >= len) {
+            return insertTail(v);
+        }
+
+        Node p = head;
+        int index = position;
+        while (index-- > 0) {
+            p = p.next;
+        }
+
+        Node node = new Node(v);
+        node.next = p.next;
+        p.next = node;
+
+        return len++;
+    }
+
+    /**
+     * Return the value of node at given position
+     * @param position The node's position in list
+     * @return The value of given position's node
+     */
+    public T getValue(int position) {
+        position = position < len?position:len;
         Node node = head;
-        for (; i > 0; i--) {
+        for (; position > 0; position--) {
             node = node.next;
         }
         return node == null?null:node.value;
     }
 
     public void display() {
-
         if (len > 0) {
             String info = "";
             Node node = head;
@@ -92,6 +127,11 @@ public class SingleLinkedList<T> {
         }
     }
 
+    /**
+     * Presentation of one node structure in a single linked
+     * list. The node is not visible out of list and it should
+     * be initialized while inserting node to list.
+     */
     private class Node {
         T value;
         Node next;

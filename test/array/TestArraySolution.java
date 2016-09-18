@@ -36,7 +36,8 @@ public class TestArraySolution {
         int[] data = new int[] {0,1,2,3,4,5,6,7};
         System.out.println(solution.searchInRotatedSortedArray(data, 4));
         data = new int[] {4,5,6,7,0,1,2};
-        System.out.println(solution.searchInRotatedSortedArray(data, 4));
+        System.out.println(solution.searchInRotatedSortedArray(data, 0));
+        System.out.println(solution.searchInRotatedSortedArray(data, 1));
     }
 
     public static void main(String... args) {

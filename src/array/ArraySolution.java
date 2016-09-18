@@ -83,7 +83,7 @@ public class ArraySolution {
      * @return The index of target in nums if exists otherwise -1
      */
     public int searchInRotatedSortedArray(int[] nums, int target) {
-        return Search.biSearch(nums, 0, nums.length - 1, target);
+        return Search.biSearchRotate(nums, target);
     }
 
     /**
