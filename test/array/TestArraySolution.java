@@ -1,6 +1,8 @@
 package array;
 
 
+import utils.Search;
+
 /**
  * Created by lafengnan on 16/9/11.
  */
@@ -28,7 +30,7 @@ public class TestArraySolution {
     }
 
     public void testRemoveDuplicatesFromSortedArrayN() {
-        int[] data = new int[] {1, 1, 1, 2, 3};
+        int[] data = new int[] {1, 1, 1, 1, 3, 3};
         System.out.println(solution.removeDuplicatesFromSortedArrayN(data, 2));
     }
 
@@ -42,12 +44,19 @@ public class TestArraySolution {
         System.out.println(solution.searchInRotatedSortedArrayII(data, 2));
     }
 
+    public void testSearchMedianInTwoSortedArrays() {
+        int[] a = new int[] {1, 2, 3, 4, 5};
+        int[] b = new int[] {-3, 1, 4, 7, 8, 9};
+        System.out.println(Search.getMedianOfTwoSortedArrays(a, b));
+    }
+
     public static void main(String... args) {
         TestArraySolution test = new TestArraySolution();
-        test.testTwoSum();
-        test.testRemoveElement();
-        test.testRemoveDuplicatesFromSortedArray();
-        test.testRemoveDuplicatesFromSortedArrayN();
-        test.testSearchInRotatedSortedArray();
+//        test.testTwoSum();
+//        test.testRemoveElement();
+//        test.testRemoveDuplicatesFromSortedArray();
+//        test.testRemoveDuplicatesFromSortedArrayN();
+//        test.testSearchInRotatedSortedArray();
+        test.testSearchMedianInTwoSortedArrays();
     }
 }

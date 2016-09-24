@@ -62,7 +62,7 @@ public class ArraySolution {
         for (; i < nums.length; i++) {
             if (nums[i] == nums[j]) {
                 if (occur < n) {
-                    j++;
+                    nums[++j] = nums[i];
                     occur++;
                 }
             } else {

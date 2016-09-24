@@ -25,6 +25,22 @@ public class SingleLinkedList<T> {
         head = tail = null;
     }
 
+    public Node getHead() {
+        return head;
+    }
+
+    public void setHead(Node head) {
+        this.head = head;
+    }
+
+    public Node getTail() {
+        return tail;
+    }
+
+    public void setTail(Node tail) {
+        this.tail = tail;
+    }
+
     public synchronized int size() {
         return len;
     }
@@ -99,6 +115,86 @@ public class SingleLinkedList<T> {
 
         return len++;
     }
+
+    /**
+     * Reverse the list by traveling the list
+     */
+    public synchronized void reverse() {
+        if (len == 1) return;
+
+        Node p = head, q = p.next;
+        while (q != null) {
+            Node x = q.next;
+            q.next = p;
+            p = q;
+            q = x;
+        }
+        head.next = null;
+        Node tmp = head;
+        head = tail;
+        tail = tmp;
+    }
+
+    /**
+     * Reverse one linked list by using recursive solution.
+     * @param head Current head node of sub-list
+     * @return The reversed list's head node
+     */
+    public synchronized Node reverseRecursively(Node head) {
+        if (head == null || head.next == null) {
+            this.head = head;
+            return head;
+        }
+
+        Node newHead = reverseRecursively(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
+    }
+
+    /**
+     * Reverse a linked list from position m to n. Do it in-place and in one-pass.
+     * For example: Given 1->2->3->4->5->nullptr, m = 2 and n = 4,
+     * return 1->4->3->2->5->null.
+     * Note: Given m, n satisfy the following condition: 1 ≤ m ≤ n ≤ length of list.
+     * @param begin The left edge of node to reverse
+     * @param end The right edge of node to reverse
+     */
+    public synchronized void reverseWithRange(final int begin, final int end) {
+
+        assert 1 <= begin && begin <= end && end <= len;
+        Node dummy = head, p = head;
+        Node q = p.next, x = null;
+
+        if (q == null || begin == end) {
+            return;
+        }
+
+        for (int i = 1; i < end; i++) {
+            if (i < begin) {
+                dummy = p;
+                p = p.next;
+                q = p.next;
+                continue;
+            }
+
+            if (q != null) {
+                x = q.next;
+                q.next = p;
+            }
+            p = q;
+            q = x;
+        }
+
+        if (begin > 1) {
+            dummy.next.next = q;
+            dummy.next = p;
+        } else {
+            head = p;
+            dummy.next = q;
+        }
+    }
+
 
     /**
      * Return the value of node at given position

@@ -114,4 +114,46 @@ public class Search {
         }
         return false;
     }
+
+    /**
+     * There are two sorted arrays A and B of size m and n respectively. Find the median of
+     * the two sorted arrays. The overall run time complexity should be O(log(m+n));
+     * @param left The first sorted array
+     * @param right The second sorted array
+     * @return The median of left and right sorted arrays
+     */
+    public static int getMedianOfTwoSortedArrays(int[] left, int[] right) {
+        if (left.length == 0 && right.length == 0) return -1;
+        if (left.length == 0 && right.length > 0) return right[right.length >> 1];
+        if (left.length != 0 && right.length == 0) return left[left.length >> 1];
+        if (left.length == 1 && right.length == 1) return Math.min(left[0], right[0]);
+
+        int k = left.length + right.length >> 1;
+        int[] p = new int[k];
+        int[] q = new int[k];
+        System.arraycopy(left, 0, p, 0, k);
+        System.arraycopy(right, 0, q, 0, k);
+        while (k > 0) {
+            if (p[k - 1] < q[k - 1]) { //left[(i+j)/2] < right[(i+j)/2]
+                System.arraycopy(left, k, p, 0, left.length - k);
+            } else if (p[k - 1] == q[k - 1]) {
+                break;
+            } else { // left[(i+j)/2] > right[(i+j)/2]
+                System.arraycopy(right, k, q, 0, right.length - k);
+            }
+            k--;
+        }
+        return p[k];
+    }
+
+    /**
+     * Find the Kth large data from two sorted arrays A and B of size m and n respectively.
+     * @param left The first sorted array
+     * @param right The second sorted array
+     * @param k The index of the data in two arrays, sorted by the data value
+     * @return The value of data that is the Kth large
+     */
+    public static int getKthNumberFromTwoSortedArrays(int[] left, int[] right, int k) {
+        return 0;
+    }
 }

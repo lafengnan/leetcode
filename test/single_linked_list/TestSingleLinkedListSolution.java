@@ -21,8 +21,37 @@ public class TestSingleLinkedListSolution {
         solution.addTwoNumbersV2(l1, l2);
     }
 
+    public void testReverse() {
+        SingleLinkedList<Integer> l = new SingleLinkedList<>();
+        l.insertTail(1);
+        l.insertTail(2);
+        l.insertTail(3);
+        l.insertTail(4);
+        l.insertTail(5);
+        l.display();
+        l.reverse();
+        l.display();
+        l.reverseRecursively(l.getHead());
+        l.display();
+    }
+
+    public void testReverseRange() {
+        SingleLinkedList<Integer> l = new SingleLinkedList<>();
+        l.insertTail(1);
+        l.insertTail(2);
+        l.insertTail(3);
+//        l.insertTail(4);
+//        l.insertTail(5);
+        l.display();
+//        l.reverseWithRange(2, 4);
+        l.reverseWithRange(2, 3);
+        l.display();
+    }
+
     public static void main(String... args) {
         TestSingleLinkedListSolution test = new TestSingleLinkedListSolution();
-        test.testAddTwoNumbers();
+//        test.testAddTwoNumbers();
+//        test.testReverse();
+        test.testReverseRange();
     }
 }
