@@ -1,5 +1,7 @@
 package utils;
 
+import sun.jvm.hotspot.utilities.Assert;
+
 /**
  * Created by lafengnan on 16/9/11.
  * The single linked list consists of head node, tail node
@@ -45,6 +47,105 @@ public class SingleLinkedList<T> {
         return len;
     }
 
+    /**
+     * Swap the two nodes in positions of left and right.
+     * Swapping is implemented by change the value of them, not
+     * swapping the nodes directly.
+     * @param left The left node to swap
+     * @param right THe right node to swap with left
+     */
+    public synchronized void swap(final int left, final int right) {
+        Assert.that(left <= right && right <= len, "expect condition: size >= right >= left");
+
+        Node p = head, q = head;
+        for (int i = 1; i < right; i++) {
+            if (i < left) {
+                p = p.next;
+            }
+            q = q.next;
+        }
+
+        T tmp = p.value;
+        p.value = q.value;
+        q.value = tmp;
+    }
+
+    /**
+     * Given a linked list, swap every two adjacent nodes and return its head.
+     * For example,
+     * Given 1->2->3->4, you should return the list as 2->1->4->3.
+     *
+     * Your algorithm should use only constant space. You may not modify the
+     * values in the list, only nodes itself can be changed.
+     * @return The head of swapped single linked list
+     */
+    public synchronized Node swapInPairs() {
+        Node p = head;
+        Node q = head;
+        if (size() < 3) {
+            if (size() == 2) {
+                head = p.next;
+                p.next.next = p;
+                p.next = null;
+            }
+            return head;
+        }
+
+        // swapping
+        head = p.next;
+        while (p.next != null) {
+            q = p.next.next;
+            p.next.next = p;
+            if (q == null) {
+                p.next = null;
+                break;
+            } else {
+                if (q.next == null) {
+                    p.next = q;
+                } else {
+                    p.next = q.next;
+                }
+            }
+            p = q;
+        }
+
+        return head;
+    }
+
+    /**
+     * Given a linked list, remove the nth node from the end of list and return its head.
+     * For example, Given linked list: 1->2->3->4->5, and n = 2.
+     * After removing the second node from the end, the linked list becomes 1->2->3->5. Note:
+     * 1. Given n will always be valid.
+     * 2. Try to do this in one pass.
+     * @param index The given index of node to remove from tail
+     */
+    public synchronized void removeNthNodeFromTail(final int index) {
+        Node p = head;
+        int distance = len - index;
+
+        if (distance <= 0) { // remove the first node
+            head = p.next;
+            p.next = null;
+            len--;
+            return;
+        } else {
+            while (--distance > 0) {
+                p = p.next;
+            }
+        }
+
+        // last node to remove
+        if (p.next.next == null) {
+            p.next = null;
+            tail = p;
+        } else {
+            Node tmp = p.next;
+            p.next = p.next.next;
+            tmp.next = null;
+        }
+        len--;
+    }
     /**
      * Insert a new node(nodeX) with value from head(node0).
      * head(node0)->node1->node2->null will change to
@@ -195,6 +296,60 @@ public class SingleLinkedList<T> {
         }
     }
 
+    /**
+     * Given a linked list and a value x, partition it such that all nodes less than x
+     * come before nodes greater than or equal to x. You should preserve the original
+     * relative order of the nodes in each of the two partitions.
+     * For example, Given 1->4->3->2->5->2 and x = 3, return 1->2->2->4->3->5.
+     * @param x The partition value to split list
+     */
+    public synchronized void partition(T x) {
+        Node p = head;
+        Node nodeX = new Node(x);
+
+        // travel to the first node with value of x (node[X])
+        // head->node[2]->node[3]->...node[k]->node[X]->node[m]->node[n]->...
+        // dummy will point to node[k] and p point to node[X]
+        while (p != null && p.value != x) {
+            p = p.next;
+        }
+
+        Node q = p == null?null:p.next;
+        if (p == head) {
+            Node dummy = q;
+            while (q != null) {
+                if (q.compareTo(nodeX) > 0) {
+                    dummy = q;
+                    q = q.next;
+                    continue;
+                }
+                dummy.next = q.next;
+                q.next = p;
+                head = q;
+                q = dummy.next;
+            }
+        } else {
+            while (q != null) {
+                if (q.compareTo(nodeX) > 0) {
+                    p = q;
+                    q = q.next;
+                    continue;
+                }
+
+                Node prev = null;
+                Node cur = head;
+                while (q.compareTo(cur) > 0) {
+                    prev = cur;
+                    cur = cur.next;
+                }
+                // move q from origin after to cur
+                p.next = q.next;
+                prev.next = q;
+                q.next = cur;
+                q = p.next;
+            }
+        }
+    }
 
     /**
      * Return the value of node at given position
@@ -228,13 +383,26 @@ public class SingleLinkedList<T> {
      * list. The node is not visible out of list and it should
      * be initialized while inserting node to list.
      */
-    private class Node {
+    private class Node implements Comparable<Node> {
         T value;
         Node next;
 
         Node(T v) {
             value = v;
             next = null;
+        }
+
+        @Override
+        public int compareTo(Node other) {
+            return (Integer)value - (Integer)(other.value);
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "value=" + value +
+                    ", next=" + next +
+                    '}';
         }
     }
 }
