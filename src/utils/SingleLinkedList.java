@@ -352,6 +352,95 @@ public class SingleLinkedList<T> {
     }
 
     /**
+     * A linked list is given such that each node contains an additional
+     * random pointer which could point to any node in the list or null.
+     * Return a deep copy of the list.
+     * @return The head of deep copied list
+     */
+    public synchronized Node slowDeepCopyRandomNodeList() {
+        Node dummy = new Node();
+        dummy.next = null;
+        dummy.random = null;
+
+        Node p = head, q = head, d = dummy;
+        while (p != null) {
+            Node node = new Node(p.value);
+            node.next = null;
+            node.random = p.random;
+            d.next = node;
+            d = node;
+
+            q = p;
+            p = p.next;
+        }
+
+        d = dummy.next;
+        q = dummy.next;
+        while (d != null) {
+            Node rdNode = d.random;
+            if (rdNode != null) {
+                p = head;
+                int pos = 0;
+                while (p != rdNode) {
+                    pos++;
+                    p = p.next;
+                }
+                for (int i = 0; i < pos; i++) {
+                    q = q.next;
+                }
+                d.random = q;
+                q = dummy.next;
+            }
+            d = d.next;
+        }
+        return dummy.next;
+    }
+
+    /**
+     * A linked list is given such that each node contains an additional
+     * random pointer which could point to any node in the list or null.
+     * This method implements by chaining two linked list and then get the random
+     * pointer, then detach two linked list into two lists.
+     * Return a deep copy of the list.
+     * @return The head of deep copied list
+     */
+    public synchronized Node deepCopyRandomNodeList() {
+        if (head == null) return null;
+
+        Node p = head;
+
+        // step 1 refactor src list and chain with new created nodes
+        while (p != null) {
+            Node node = new Node(p.value);
+            node.next = p.next;
+            p.next = node;
+            p = node.next;
+        }
+
+        // step 2 finding randoms and refactor randoms of new created nodes
+        p = head;
+        while (p != null) {
+            if (p.random != null) {
+                p.next.random = p.random.next;
+            }
+            p = p.next.next;
+        }
+
+        // step 3 detach the cloned list from src list and refactor src to its original state
+        p = head;
+        Node dummy = new Node();
+        Node q = dummy;
+
+        while (p != null) {
+            q.next = p.next;
+            q = q.next;
+            p.next = p.next.next;
+            p = p.next;
+        }
+        return dummy.next;
+    }
+
+    /**
      * Return the value of node at given position
      * @param position The node's position in list
      * @return The value of given position's node
@@ -386,7 +475,9 @@ public class SingleLinkedList<T> {
     private class Node implements Comparable<Node> {
         T value;
         Node next;
+        Node random;
 
+        Node() {next = random = null;}
         Node(T v) {
             value = v;
             next = null;
@@ -402,6 +493,7 @@ public class SingleLinkedList<T> {
             return "Node{" +
                     "value=" + value +
                     ", next=" + next +
+                    ", random=" + random +
                     '}';
         }
     }
