@@ -29,10 +29,17 @@ public class TestStringSolution {
         System.out.println(StringSolution.atoi(str3));
     }
 
+    public void testAddBinary() {
+        String l = "11011";
+        String r = "1011";
+        System.out.println(StringSolution.addBinary(l, r));
+    }
+
     public static void main(String... args) {
         TestStringSolution solution = new TestStringSolution();
         solution.testIsPalindrome();
         solution.testStrStr();
         solution.testAtoi();
+        solution.testAddBinary();
     }
 }

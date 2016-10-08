@@ -205,4 +205,77 @@ public class StringSolution {
 
         return negFlag?-digit:digit;
     }
+
+    /**
+     * Given two binary strings, return their sum (also a binary string).
+     * For example,
+     * a = "11"
+     * b = "1"
+     * Return "100".
+     * @param left The first binary string
+     * @param right The second binary string
+     * @return The sum of two binaries in binary format
+     */
+    public static String addBinary(String left, String right) {
+        boolean carry = false;
+        boolean good = true;
+        String sum = "";
+        int lLen = left.length(), rLen = right.length();
+        int steps = lLen <= rLen? lLen : rLen;
+        int i = 1;
+
+        for (; good && i <= steps; i++) {
+            char l = left.charAt(lLen - i), r = right.charAt(rLen - i);
+            switch (l) {
+                case '0':
+                    if (r == '0') {
+                        sum = (carry?"1":"0") + sum;
+                        carry = false;
+                    } else if (r == '1'){
+                        sum = (carry?"0":"1") + sum;
+                    } else {
+                        good = false;
+                        sum = "";
+                    }
+                    break;
+                case '1':
+                    if (r == '0') {
+                        sum = (carry?"0":"1") + sum;
+                    } else if (r == '1') {
+                        sum = (carry?"1":"0") + sum;
+                        carry = true;
+                    } else {
+                        good = false;
+                        sum = "";
+                    }
+                    break;
+                default:
+                    good = false;
+                    sum = "";
+                    break;
+            }
+        }
+
+        String longStr = lLen <= rLen?right:left;
+        steps = lLen > rLen?lLen:rLen;
+
+        for (; good && i <= steps; i++) {
+            char remain = longStr.charAt(steps - i);
+            switch (remain) {
+                case '0':
+                    sum = (carry?"1":"0") + sum;
+                    carry = false;
+                    break;
+                case '1':
+                    sum = (carry?"0":"1") + sum;
+                    break;
+                default:
+                    good = false;
+                    sum = "";
+                    break;
+            }
+        }
+
+        return good?carry?"1"+sum:sum:"";
+    }
 }
