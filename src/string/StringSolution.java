@@ -275,4 +275,23 @@ public class StringSolution {
 
         return good?carry?sb.insert(0, '1').toString():sb.toString():"";
     }
+
+    public static String addBinaryII(String left, String right) {
+        int lLen = left.length(), rLen = right.length();
+        int steps = lLen > rLen? lLen:rLen;
+
+        int carry = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= steps; i++) {
+            int lv = i <= lLen?left.charAt(lLen - i) - '0':0;
+            int rv = i <= rLen?right.charAt(rLen - i) - '0':0;
+//            int v = (lv + rv + carry) % 2;
+            int v = lv ^ rv ^ carry;
+            carry = (lv + rv + carry) >> 1;
+            sb.insert(0, (char)(v + '0'));
+        }
+        if (carry > 0) sb.insert(0, '1');
+
+        return sb.toString();
+    }
 }

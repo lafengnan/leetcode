@@ -33,6 +33,7 @@ public class TestStringSolution {
         String l = "11011";
         String r = "1011";
         System.out.println(StringSolution.addBinary(l, r));
+        System.out.println(StringSolution.addBinaryII(l, r));
     }
 
     public static void main(String... args) {
