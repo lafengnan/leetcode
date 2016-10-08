@@ -217,65 +217,62 @@ public class StringSolution {
      * @return The sum of two binaries in binary format
      */
     public static String addBinary(String left, String right) {
-        boolean carry = false;
         boolean good = true;
-        String sum = "";
+        boolean carry = false;
         int lLen = left.length(), rLen = right.length();
         int steps = lLen <= rLen? lLen : rLen;
+
         int i = 1;
+        StringBuilder sb = new StringBuilder("");
 
         for (; good && i <= steps; i++) {
             char l = left.charAt(lLen - i), r = right.charAt(rLen - i);
             switch (l) {
                 case '0':
                     if (r == '0') {
-                        sum = (carry?"1":"0") + sum;
+                        sb.insert(0, carry?'1':'0');
                         carry = false;
                     } else if (r == '1'){
-                        sum = (carry?"0":"1") + sum;
+                        sb.insert(0, carry?'0':'1');
                     } else {
                         good = false;
-                        sum = "";
                     }
                     break;
                 case '1':
                     if (r == '0') {
-                        sum = (carry?"0":"1") + sum;
+                        sb.insert(0, carry?'0':'1');
                     } else if (r == '1') {
-                        sum = (carry?"1":"0") + sum;
+                        sb.insert(0, carry?'1':'0');
                         carry = true;
                     } else {
                         good = false;
-                        sum = "";
                     }
                     break;
                 default:
                     good = false;
-                    sum = "";
                     break;
             }
         }
 
-        String longStr = lLen <= rLen?right:left;
         steps = lLen > rLen?lLen:rLen;
+        String longStr = lLen > rLen?left:right;
 
         for (; good && i <= steps; i++) {
             char remain = longStr.charAt(steps - i);
             switch (remain) {
                 case '0':
-                    sum = (carry?"1":"0") + sum;
+                    sb.insert(0, carry?'1':'0');
                     carry = false;
                     break;
                 case '1':
-                    sum = (carry?"0":"1") + sum;
+                    sb.insert(0, carry?'0':'1');
                     break;
                 default:
                     good = false;
-                    sum = "";
                     break;
             }
         }
 
-        return good?carry?"1"+sum:sum:"";
+        return good?carry?sb.insert(0, '1').toString():sb.toString():"";
     }
 }
