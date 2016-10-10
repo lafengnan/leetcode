@@ -69,6 +69,16 @@ public class TestStringSolution {
         }
     }
 
+    public void testIntToRoman() {
+        int[] values = {
+                1, 4, 3333, 2500, 8,
+                952, 199, 14, 1437, 1880
+        };
+        for (int v : values) {
+            System.out.println(v + " " + StringSolution.intToRoman(v));
+        }
+    }
+
     public static void main(String... args) {
         TestStringSolution solution = new TestStringSolution();
         solution.testIsPalindrome();
@@ -77,5 +87,6 @@ public class TestStringSolution {
         solution.testAddBinary();
         solution.testIsNumber();
         solution.testRomanToInt();
+        solution.testIntToRoman();
     }
 }
