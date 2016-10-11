@@ -33,4 +33,27 @@ public class SortSolution {
             data[minIndex] = tmp;
         }
     }
+
+    public static void mergeSort(int[] data, int low, int high) {
+        if (low < high) {
+            int mid = (low + high) >> 1;
+            mergeSort(data, low, mid);
+            mergeSort(data, mid + 1, high);
+            merge(data, low, mid, high);
+        }
+    }
+
+    private static void merge(int[] data, int low, int mid, int high) {
+        int n1 = mid - low + 1, n2 = high - mid;
+        int[] left = new int[n1 + 1];
+        int[] right = new int[n2 + 1];
+
+        for (int i = 0; i < n1; i++) left[i] = data[low + i];
+        for (int i = 0; i < n2; i++) right[i] = data[mid + i + 1];
+        left[n1] = right[n2] = Integer.MAX_VALUE;
+
+        int i = 0, j = 0, k = low;
+        while (k <= high) data[k++] = left[i] <= right[j]?left[i++]:right[j++];
+    }
 }
+

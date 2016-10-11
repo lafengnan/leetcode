@@ -30,9 +30,19 @@ public class TestSortSolution {
         System.out.println("========");
     }
 
+    public void testMergeSort() {
+        int[] cloned = data.clone();
+        display(cloned);
+        SortSolution.mergeSort(cloned, 0, cloned.length - 1);
+        System.out.println("--------");
+        display(cloned);
+        System.out.println("========");
+    }
+
     public static void main(String... args) {
         TestSortSolution solution = new TestSortSolution();
-        solution.testInsertSort();
-        solution.testSelectionSort();
+//        solution.testInsertSort();
+//        solution.testSelectionSort();
+        solution.testMergeSort();
     }
 }

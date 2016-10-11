@@ -1,0 +1,19 @@
+@startuml
+
+class Throwable
+
+Throwable <|-- Exception
+namespace unchecked_exception {
+.Throwable <|-- Error
+.Exception <|-- RuntimeException
+Error <|-- SubErrors
+RuntimeException <|-- SubRuntimeExceptions
+}
+
+namespace checked_exception {
+.Throwable <|-- SubThrowables
+.Exception <|-- NonRuntimeException
+}
+
+
+@enduml
