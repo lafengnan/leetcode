@@ -55,5 +55,32 @@ public class SortSolution {
         int i = 0, j = 0, k = low;
         while (k <= high) data[k++] = left[i] <= right[j]?left[i++]:right[j++];
     }
+
+    public static void quickSort(int[] data, int l, int h) {
+        if (l < h) {
+            int x = partition(data, l, h);
+            quickSort(data, l, x - 1);
+            quickSort(data, x + 1, h);
+        }
+    }
+
+    private static int partition(int[] data, int l, int h) {
+        int x = data[h];
+        int i = l - 1;
+        for (int j = l; j <= h - 1; j++) {
+            if (data[j] <= x) {
+                i++;
+                int tmp = data[i];
+                data[i] = data[j];
+                data[j] = tmp;
+//                data[i] ^= data[j] ^= data[i] ^= data[j];
+            }
+        }
+//        data[i+1] ^= data[h] ^= data[i+1] ^= data[h];
+        int tmp = data[i+1];
+        data[i+1] = data[h];
+        data[h] = tmp;
+        return i + 1;
+    }
 }
 
