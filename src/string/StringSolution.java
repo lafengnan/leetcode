@@ -10,6 +10,90 @@ import java.util.Map;
  */
 public class StringSolution {
 
+    public static String reverse(String s) {
+        char[] chars = s.toCharArray();
+        int mid = chars.length >> 1;
+        for (int i = 0; i < mid; i++) {
+            int j = chars.length - 1 - i;
+            chars[i] ^= chars[j];
+            chars[j] ^= chars[i];
+            chars[i] ^= chars[j];
+        }
+
+        return String.valueOf(chars);
+    }
+
+    /**
+     * Given an absolute path for a file (Unix-style), simplify it.
+     * For example,
+     * path = "/home/", => "/home"
+     * path = "/a/./b/../../c/", => "/c"
+     * click to show corner cases.
+     *
+     * Corner Cases:
+     * 1. Did you consider the case where path="/../"? In this case,you should return"/".
+     * 2. Another corner case is the path might contain multiple slashes '/' together, such as
+     "/home//foo/". In this case, you should ignore redundant slashes and return "/home/foo".
+     * @param path The complicated path to simplify
+     * @return the simplified path
+     */
+    public static String simplifyPath(String path) {
+        StringBuilder sb = new StringBuilder();
+        String[] paths = path.split("/");
+        List<String> sp = new LinkedList<>();
+        boolean goodPath = path.startsWith("/");
+        for (int i = 0; goodPath && i < paths.length; i++) {
+            if (paths[i].equals(".") || paths[i].isEmpty()) continue;
+            if (paths[i].equals("..")) {
+                if (!sp.isEmpty()) {
+                    sp.remove(sp.size() - 1);
+                }
+            } else {
+                sp.add(paths[i]);
+            }
+        }
+
+        if (goodPath) {
+            if (sp.isEmpty()) {
+                sb.append("/");
+            } else {
+                sp.forEach(p -> sb.append("/").append(p));
+            }
+        }
+        return sb.toString();
+    }
+
+    public static String simplifyPathII(String path) {
+        String[] paths = path.split("/");
+        String[] sp = new String[path.length()];
+        StringBuilder sb = new StringBuilder();
+        int j = 0;
+        boolean goodPath = path.startsWith("/");
+        for (int i = 0; goodPath && i < paths.length; i++) {
+            if (paths[i].equals(".") || paths[i].isEmpty()) continue;
+            if (paths[i].equals("..")) {
+                if (j > 0) {
+                    --j;
+                }
+                if (sp[j] != null && !sp[j].isEmpty()) {
+                    sp[j] = "";
+                }
+            } else {
+                sp[j++] = paths[i];
+            }
+        }
+
+        int k = 0;
+        if (goodPath && (sp[k] == null || sp[k].isEmpty())) return "/";
+        while (sp[k] != null) {
+            if (!sp[k].isEmpty()) {
+                sb.append("/").append(sp[k]);
+            }
+            k++;
+        }
+        return sb.toString();
+    }
+
     /**
      * Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
      * For example,

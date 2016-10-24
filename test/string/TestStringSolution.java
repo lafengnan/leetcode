@@ -79,14 +79,23 @@ public class TestStringSolution {
         }
     }
 
+    public void testSimplifyPath() {
+        String[] path = {"/home/", "/a/./b/../../c", "/../", "/a/b//c/", "./", "../", "a/b/c", "/home/ab/c/../.././abcd/d/f/g/../././sss/x"};
+        for (String p : path) {
+            System.out.println(StringSolution.simplifyPath(p));
+            System.out.println(StringSolution.simplifyPathII(p));
+        }
+    }
+
     public static void main(String... args) {
         TestStringSolution solution = new TestStringSolution();
-        solution.testIsPalindrome();
-        solution.testStrStr();
-        solution.testAtoi();
-        solution.testAddBinary();
-        solution.testIsNumber();
-        solution.testRomanToInt();
-        solution.testIntToRoman();
+//        solution.testIsPalindrome();
+//        solution.testStrStr();
+//        solution.testAtoi();
+//        solution.testAddBinary();
+//        solution.testIsNumber();
+//        solution.testRomanToInt();
+//        solution.testIntToRoman();
+        solution.testSimplifyPath();
     }
 }
