@@ -1,9 +1,5 @@
 package string;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lafengnan on 16/10/7.
@@ -514,6 +510,180 @@ public class StringSolution {
             while (steps-- > 0) sb.append(symbol[i]);
             i++;
         }
+        return sb.toString();
+    }
+
+    /**
+     * String-58
+     * Given a string s consists of upper/lower-case alphabets and empty space characters ' ',
+     * return the length of last word in the string.
+     * If the last word does not exist, return 0.
+     * Note: A word is defined as a character sequence consists of non-space characters only.
+     * For example,
+     * Given s = "Hello World", return 5.
+     * @param s The word to to analyze
+     * @return The length of last word
+     */
+    public static int lengthOfLastWord(String s) {
+        char[] chars = s.toCharArray();
+        int cnt = 0;
+        boolean tailSpace = true;
+        for (int i = chars.length - 1; i >= 0; i--) {
+            if (chars[i] == ' ') {
+                if (!tailSpace) break;
+            } else {
+                tailSpace = false;
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+
+    public static int lengthOfLastWordII(String s) {
+        int cnt = 0;
+        boolean flag = false;
+        int i = s.length();
+        while (i >= 0) {
+            if (s.charAt(i) == ' ') {
+                if (flag) break;
+            } else {
+                flag = true;
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+
+    /**
+     * String-49
+     * Given an array of strings, group anagrams together.
+     * For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
+     * Return:
+     * [
+     *     ["ate", "eat","tea"],
+     *     ["nat","tan"],
+     *     ["bat"]
+     * ]
+     *
+     * Note: All inputs will be in lower-case.
+     * @param strs The input datas
+     * @return The list of anagrams
+     */
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> result = new LinkedList<>();
+        String[] clones = new String[strs.length];
+        System.arraycopy(strs, 0, clones, 0, strs.length);
+
+        for (int i = 0; i < clones.length; i++) {
+            if (clones[i] == null) continue;
+            char[] chars = clones[i].toCharArray();
+            Arrays.sort(chars);
+            clones[i] = String.valueOf(chars);
+            List<String> list = new LinkedList<>();
+            if (clones[i] != null) list.add(strs[i]);
+            for (int j = i + 1; j < clones.length; j++) {
+                if (clones[j] == null) continue;
+                char[] charsJ = clones[j].toCharArray();
+                Arrays.sort(charsJ);
+                clones[j] = String.valueOf(charsJ);
+                if (clones[i].equals(clones[j])) {
+                    list.add(strs[j]);
+                    clones[j] = null;
+                }
+            }
+            result.add(list);
+        }
+
+        return result;
+    }
+
+    /**
+     * String-49
+     * Given an array of strings, group anagrams together.
+     * For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
+     * Return:
+     * [
+     *     ["ate", "eat","tea"],
+     *     ["nat","tan"],
+     *     ["bat"]
+     * ]
+     *
+     * Note: All inputs will be in lower-case.
+     * @param strs The input datas
+     * @return The list of anagrams
+     */
+    public static List<List<String>> groupAnagramsIII(String[] strs) {
+        List<List<String>> result = new LinkedList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        int[] primes = {
+                2, 3, 5, 7, 11, 13,
+                17, 19, 23, 29, 31, 41,
+                43, 47, 53, 59, 61, 67,
+                71, 73, 79, 83, 89, 97,
+                101, 103};
+
+        int msk, index = 0;
+        for (String s : strs) {
+            msk = 1;
+            for (int i = 0; i < s.length(); i++) msk *= primes[s.charAt(i) - 'a'];
+            if (!map.containsKey(msk)) {
+                result.add(new LinkedList<>());
+                map.put(msk, index++);
+            }
+            result.get(map.get(msk)).add(s);
+        }
+
+        return result;
+    }
+
+    /**
+     * Build blance bi-tree for each string, then compare the bi-tree
+     * @param strs
+     * @return
+     */
+    public static List<List<String>> groupAnagramsII(String[] strs) {
+        return null;
+    }
+
+    public static boolean equivalent(String s1, String s2) {
+        char[] chars1 = s1.toCharArray();
+        char[] chars2 = s2.toCharArray();
+        boolean flag = chars1.length == chars2.length;
+        if (flag) {
+            if (chars1.length == 0) return true; // empty str
+
+            Arrays.sort(chars1);
+            Arrays.sort(chars2);
+            for (int i = 0; flag && i < chars1.length; i++) {
+                flag = chars1[i] == chars2[i];
+            }
+        }
+
+        return flag;
+    }
+
+    /**
+     * rotate right shift the string
+     * @param s the original string to rotate
+     * @param n how many bits to shift
+     *
+     * Example:
+     *          s = "1234", after shifting 1
+     *          s = "4123", after shifting 2
+     *          s = "3412", etc
+     * @return the shifted string
+     */
+    public static String rShift(String s, int n) {
+        int len = s.length();
+        int i = 0, shiftLen = n < len?n:len;
+        StringBuilder sb = new StringBuilder(len);
+
+        while (i < shiftLen) {
+            sb.insert(0, s.charAt(len - 1 - i++));
+        }
+        if (shiftLen <= len)
+            sb.append(s.substring(0, len - shiftLen));
+
         return sb.toString();
     }
 }

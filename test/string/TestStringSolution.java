@@ -87,6 +87,26 @@ public class TestStringSolution {
         }
     }
 
+    public void testGroupAngrams() {
+//        String[] data = {"eat", "tea", "tan", "ate", "nat", "bat", "", ""};
+        String[] data = {"ray","cod","abe","ned","arc","jar","owl","pop",
+                "paw","sky","yup","fed","jul","woo","ado","why","ben","mys",
+                "den","dem","fat","you","eon","sui","oct","asp","ago","lea",
+                "sow","hus","fee","yup","eve","red","flo","ids","tic","pup",
+                "hag","ito","zoo"};
+//        [["hag"],["pup"],["ids"],["ito"],["flo"],["red"],["hus"],["sow"],["asp"],
+//        ["oct"],["sui"],["fee"],["eon"],["tic"],["sky"],["ago"],["paw"],["jul"],
+//        ["pop"],["jar"],["den","ned"],["abe"],["zoo"],["ado"],["lea"],["arc"],["dem"],
+//        ["fat"],["owl"],["eve"],["mys"],["cod"],["ray"],["yup","yup"],["woo"],["fed"],["why"],["ben"],["you"]]
+        System.out.println(StringSolution.groupAnagramsIII(data));
+
+//        for (String str : data) {
+//            for (int i = 0; i <= str.length(); i++) {
+//                System.out.println(StringSolution.rShift(str, i));
+//            }
+//        }
+    }
+
     public static void main(String... args) {
         TestStringSolution solution = new TestStringSolution();
 //        solution.testIsPalindrome();
@@ -96,6 +116,7 @@ public class TestStringSolution {
 //        solution.testIsNumber();
 //        solution.testRomanToInt();
 //        solution.testIntToRoman();
-        solution.testSimplifyPath();
+//        solution.testSimplifyPath();
+        solution.testGroupAngrams();
     }
 }

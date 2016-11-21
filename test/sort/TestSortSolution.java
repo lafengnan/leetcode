@@ -1,7 +1,5 @@
 package sort;
 
-import com.sun.org.apache.bcel.internal.util.ClassLoader;
-
 /**
  * Created by lafengnan on 16/10/8.
  */
@@ -50,11 +48,31 @@ public class TestSortSolution {
         System.out.println("========");
     }
 
+    public void testBucketSort() {
+        int[] cloned = {3, 2, 7, -1, -4, 18, 5, 9, 20, 1, 19};
+        display(cloned);
+//        cloned = SortSolution.fakeBucketSort(cloned, 20);
+        SortSolution.bucketSort(cloned, 20);
+        System.out.println("--------");
+        display(cloned);
+        System.out.println("========");
+    }
+
+    public void testCountSort() {
+        int[] data = {2, 3, 0, 1, 5, 7, 0, 2, 5};
+        display(data);
+        System.out.println("--------");
+        display(SortSolution.countSort(data, 7));
+        System.out.println("========");
+    }
+
     public static void main(String... args) {
         TestSortSolution solution = new TestSortSolution();
-        solution.testInsertSort();
-        solution.testSelectionSort();
-        solution.testMergeSort();
-        solution.testQuickSort();
+//        solution.testInsertSort();
+//        solution.testSelectionSort();
+//        solution.testMergeSort();
+//        solution.testQuickSort();
+//        solution.testBucketSort();
+        solution.testCountSort();
     }
 }
